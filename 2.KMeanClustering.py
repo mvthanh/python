@@ -24,7 +24,7 @@ def kmeans_display(X, label):
     X1 = X[label == 1, :]
     X2 = X[label == 2, :]
 
-    print(X0)
+#    print(X0)
 
     plt.plot(X0[:, 0], X0[:, 1], 'b^', markersize = 4, alpha = .8)
     plt.plot(X1[:, 0], X1[:, 1], 'go', markersize = 4, alpha = .8)
@@ -34,5 +34,44 @@ def kmeans_display(X, label):
     plt.plot()
     plt.show()
 
-kmeans_display(X, original_lable)
+#kmeans_display(X, original_lable)
 
+def kmeans_init_centers(X, k):
+    return X[np.random.choice(X.shape[0], k, replace=False)]
+
+def kmeans_assign_labels(X, centers):
+    D = cdist(X, centers)
+    return np.argmin(D, axis = 1)
+
+def kmeans_update_centers(X, labels, K):
+    centers = np.zeros((K, X.shape[1]))
+    for k in range(K):
+        Xk = X[labels == k, :]
+        centers[k, :] = np.mean(Xk, axis = 0)
+    return centers
+
+def has_converged(centers, new_centers):
+    return (set([tuple(a) for a in centers]) == 
+        set([tuple(a) for a in new_centers]))
+
+def kmeans(X, K):
+    centers = [kmeans_init_centers(X, K)]
+    labels = []
+    it = 0
+    while True:
+        labels.append(kmeans_assign_labels(X, centers[-1]))
+        new_centers = kmeans_update_centers(X, labels[-1], K)
+        if has_converged(new_centers, centers[-1]):
+            break
+        centers.append(new_centers)
+        it += 1
+    return (centers, labels, it)
+
+(centers, labels, it) = kmeans(X, K)
+print('Centers found by our algorithm:')
+print(centers[-1])
+
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=3, random_state=0).fit(X)
+print('Centers found by scikit-learn:')
+print(kmeans.cluster_centers_)
