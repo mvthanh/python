@@ -74,7 +74,7 @@ regr.fit(input, output)
   
 print("cost")
 for k in range(20):
-    print(cost(regr.coef_.T, input[k]), " : ", output[k][0])
+#    print(cost(regr.coef_.T, input[k]), " : ", output[k][0])
     print(cost(w, input[k]), " : ", output[k][0])
 
 def RegressionModel(input, output):

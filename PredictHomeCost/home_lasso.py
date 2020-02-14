@@ -22,7 +22,7 @@ output = np.array([df.T[21, :N]], dtype=np.float32).T
 input = np.concatenate((one, x1, x2, x3, x4, x5), axis=1)
 #print(input)
 
-A = np.dot(input.T, input)
+"""A = np.dot(input.T, input)
 #print(A)
 b = np.dot(input.T, output)
 #print(b)
@@ -54,7 +54,7 @@ regr.fit(input, output)
 print( 'Solution found by scikit-learn  : ', regr.coef_ )
 print( 'Solution found by (5): ', w.T)
 print(np.linalg.norm(regr.coef_ - w.T))
-
+"""
 
 from sklearn.linear_model import Lasso
 lasso = Lasso().fit(input, output)
