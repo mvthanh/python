@@ -3,13 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 df = pd.read_csv('home_data.csv', header=0)
-#print((df))
+# print((df))
 df = np.asarray(df)
 print(df.shape)
 N = 500
 
-#print(one)
-#convert
+# print(one)
+# convert
 
 one = np.ones((N, 1), dtype=np.float32)
 x1 = np.array([df.T[0, :N]], dtype=np.float32).T
@@ -18,9 +18,9 @@ x3 = np.array([df.T[4, :N]], dtype=np.float32).T
 x4 = np.array([df.T[5, :N]], dtype=np.float32).T
 x5 = np.array([df.T[6, :N]], dtype=np.float32).T
 output = np.array([df.T[21, :N]], dtype=np.float32).T
-#print(output)
+# print(output)
 input = np.concatenate((one, x1, x2, x3, x4, x5), axis=1)
-#print(input)
+# print(input)
 
 """A = np.dot(input.T, input)
 #print(A)
@@ -57,7 +57,25 @@ print(np.linalg.norm(regr.coef_ - w.T))
 """
 
 from sklearn.linear_model import Lasso
-lasso = Lasso().fit(input, output)
+
+lasso = Lasso(alpha=10).fit(input, output)
 print("Training set score: {:.2f}".format(lasso.score(input, output)))
 print("lasso.coef_: {}".format(lasso.coef_))
 print(lasso.predict(input)[:20])
+
+lasso = Lasso(alpha=0.1).fit(input, output)
+print("Training set score: {:.2f}".format(lasso.score(input, output)))
+print("lasso.coef_: {}".format(lasso.coef_))
+print(lasso.predict(input)[:20])
+
+from mpl_toolkits import mplot3d
+
+fig = plt.figure()
+ax = plt.axes(projection="3d")
+
+z_points = output.T[0]
+x_points = x1.T[0]
+y_points = x2.T[0]
+ax.scatter3D(x_points, y_points, z_points, c=z_points, cmap='hsv')
+
+plt.show()
