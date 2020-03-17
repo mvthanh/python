@@ -27,13 +27,10 @@ img = test_img[1].reshape((28, 28))
 fig = plt.figure()
 ax = plt.axes(projection="3d")
 
-
-
-
 x_points = []
 y_points = []
 z_points = []
-list = test_img[test_labels == 7]
+list = test_img[test_labels == 0]
 res = []
 for it in list:
     img = it.reshape((28, 28))
