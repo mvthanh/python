@@ -1,11 +1,12 @@
 from __future__ import print_function
 import numpy as np
 from mnist import MNIST
-from reportlab.lib.units import cm
+from matplotlib import cm
 from sklearn.metrics import accuracy_score
 from matplotlib import pyplot as plt
 from mpl_toolkits import mplot3d
 from scipy.spatial.distance import cdist
+import matplotlib.tri as tri
 
 data_set = MNIST('./MNIST/')
 data_set.load_training()
@@ -48,7 +49,8 @@ for it in list:
 x_points = np.array(x_points).reshape((-1))
 y_points = np.array(y_points).reshape((-1))
 z_points = np.array(z_points).reshape((-1))
-ax.scatter3D(x_points, y_points, z_points, s=1, alpha=1, c=z_points)
+#ax.scatter3D(x_points, y_points, z_points, s=1, alpha=1, c=z_points)
+ax.plot_trisurf(x_points, y_points, z_points, triangles=tri.triangles, cmap=plt.cm.Spectral)
 plt.show()
 
 '''

@@ -39,7 +39,7 @@ model.add(Dropout(0.5))
 model.add(Dense(128, activation='relu'))
 model.add(Dense(10, activation='softmax'))
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-h = model.fit(train_img, train_labels, batch_size=512, epochs=30, validation_split=0.1)
+h = model.fit(train_img, train_labels, batch_size=512, epochs=3, validation_split=0.1)
 
 score = model.evaluate(test_img, test_labels, verbose=0)
 print(score)

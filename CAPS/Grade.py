@@ -26,7 +26,7 @@ def pdfparser(data):
 
 
 def read():
-    file = open("textTA.txt", 'r')
+    file = open("textTA.txt", 'r', encoding="utf8")
     result = []
     for line in file:
         line = line.strip()
@@ -41,11 +41,11 @@ def read():
     return result
 
 
-'''
+
 pdfparser('grade.pdf')
 res = read()
 print(len(res))
-'''
+
 pages = convert_from_path('grade.pdf', 500)
 
 for page in pages:
