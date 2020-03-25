@@ -1,0 +1,55 @@
+import numpy as np
+import cv2
+
+'''
+img = cv2.imread('digit.jpg', 0)
+vis = img.copy()
+mser = cv2.MSER_create()
+regions = mser.detectRegions(img)
+
+hulls = [cv2.convexHull(np.array(p).reshape(-1, 1, 2)) for p in regions[0]]
+cv2.polylines(vis, hulls, 1, (0, 0, 255))
+cv2.imshow('img', vis)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+'''
+
+
+def _to_gray(image):
+    if len(image.shape) == 3:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = image
+    return gray
+
+
+def detect(img):
+    gray = _to_gray(img)
+    mser = cv2.MSER_create()
+    regions = mser.detectRegions(gray)
+    bounding_boxes = _get_boxes(regions)
+    return img, bounding_boxes
+
+
+def _get_boxes(regions):
+    bbs = []
+    for i, region in enumerate(regions[0]):
+        region = np.array(region)
+        (x, y, w, h) = cv2.boundingRect(region.reshape(-1, 1, 2))
+        bbs.append((y, y + h, x, x + w))
+
+    return np.array(bbs)
+
+
+img = cv2.imread('img1.jpg', 0)
+img, bounding_boxes = detect(img)
+print(bounding_boxes.shape)
+print(bounding_boxes)
+
+i = 0
+for box in bounding_boxes:
+    i += 1
+    cv2.imshow("img" + str(i), img[box[0]: box[1], box[2]: box[3]])
+
+cv2.imshow("img", img)
+cv2.waitKey(0)
